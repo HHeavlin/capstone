@@ -14,16 +14,16 @@ def get_broadcaster_id(name):
     later on for getting clips etc
     '''
     headers = {
-        'Authorization': 'Bearer SOMESTRING',
+        'Authorization': 'Bearer ewq8n48deol5mpzmak6cp52cre4h1u',
     }
 
     params = (
-        ('id', name),
+        ('login', name),
     )
 
-    response = requests.get('https://api.twitch.tv/helix/users', headers=headers, params=params)
-
-    return None
+    r = requests.get('https://api.twitch.tv/helix/users', headers=headers, params=params)
+    r = r.json()
+    return r['data'][0]['id']
     
 def get_clips(id, num_clip = 10):
     '''
@@ -33,7 +33,7 @@ def get_clips(id, num_clip = 10):
     in a list
     '''
     headers = {
-        'Client-ID': 'uo6dggojyb8d6soh92zknwmi5ej1q2',
+        'Client-ID': 'ftag5tm1s9srx33fgz9zg60ebcn0n5',
     }
 
     params = (
@@ -41,6 +41,6 @@ def get_clips(id, num_clip = 10):
         ('first', str(num_clip)),
     )
 
-    response = requests.get('https://api.twitch.tv/helix/clips', headers=headers, params=params)
-    return None
-    
+    r = requests.get('https://api.twitch.tv/helix/clips', headers=headers, params=params)
+    return r.json()['data']
+
