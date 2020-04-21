@@ -17,8 +17,13 @@ def generate_sentiment(clipdata):
     for clip in clipdata:
         d = clip['created_at']
         d = datetime.datetime(int(d[0:4]), int(d[5:7]), int(d[8:10]), int(d[11:13]), int(d[14:16]), int(d[17:19]))
+        td = datetime.timedelta(minutes=1)
+        d1 = d - td
+        d2 = d + td
         df = parsing_zip_file(d.day, d.month, d.year)
-        sentiments.append(Chat_reader(df['Message']))
+        chatbefore = df[(df.Date <= d)&(df.Date >= d1)]['Message']
+        chatafter = df[(df.Date <= d2)&(df.Date >= d)]['Message']
+        sentiments.append((Chat_reader(chatbefore),Chat_reader(chatafter)))
     return sentiments
 #==========================================================
 def main():
@@ -33,7 +38,9 @@ def main():
     for i, cr in enumerate(sentiments):
         print('Clip Title: ' + clips[i]['title'])
         print('Clip Views: ' + str(clips[i]['view_count']))
-        print('Sentiments: ' + str(cr))
+        print('Sentiments: ')
+        print(str(cr[0]))
+        print(str(cr[1]))
     
 if __name__ == '__main__':
     main()

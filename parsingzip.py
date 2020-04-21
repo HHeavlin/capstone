@@ -9,7 +9,7 @@ def parsing_zip_file(day, month, year):
     month_to_num = {'January': '01', 'February': '02', 'March': '03', 'April': '04', 'May': '05', 'June': '06', 'July': '07', 'August': '08', 'September': '09', 'October': '10', 'November': '11', 'December': '12'}
     num_to_month = {'1' : 'January', '2' : 'February', '3' : 'March', '4' : 'April', '5' : 'May', '6' : 'June', '7' : 'July', '8' : 'August', '9' : 'September', '10' : 'October', '11' : 'November', '12' : 'December'}
     fname = "Moonmoon chatlog/" + num_to_month[str(month)] + ' ' + str(year) + "/" + str(year) + '-' + month_to_num[num_to_month[str(month)]] + '-' + str(day) + '.txt'
-    print(fname)
+    #print(fname)
     with zipfile.ZipFile("Moonmoon_chatlog.zip") as z:
         for filename in z.namelist():
             if fname == filename:
