@@ -4,7 +4,7 @@ Date: 02/26/20
 
 Description: 
 '''
-import datetime
+import datetime, json
 from j_utils import *
 from sentiment import Chat_reader
 from parsingzip import parsing_zip_file
@@ -25,6 +25,22 @@ def generate_sentiment(clipdata):
         chatafter = df[(df.Date <= d2)&(df.Date >= d)]['Message']
         sentiments.append((Chat_reader(chatbefore),Chat_reader(chatafter)))
     return sentiments
+
+def generate_json(sentiments, clipdata):
+    data = []
+    for i, s in enumerate(sentiments):
+        score = s[0].avgsent - s[1].avgsent
+        d = {
+            'score' : round(score, 2),
+            'url' : clipdata[i]['url'],
+            'thumbnail_url' : clipdata[i]['thumbnail_url'],
+            'title' : clipdata[i]['title'],
+            'view_count' : clipdata[i]['view_count'] 
+        }
+        data.append(d)
+    with open('clipdata.json', 'w') as fp:
+        json.dump(data, fp)
+
 #==========================================================
 def main():
     '''
@@ -32,15 +48,21 @@ def main():
     this file here.
     '''
     moonid = '121059319'
-    ui = int(input('Input int num of top clips to get sentiment for: '))
-    clips = get_clips(moonid, ui)
-    sentiments = generate_sentiment(clips)
-    for i, cr in enumerate(sentiments):
-        print('Clip Title: ' + clips[i]['title'])
-        print('Clip Views: ' + str(clips[i]['view_count']))
-        print('Sentiments: ')
-        print(str(cr[0]))
-        print(str(cr[1]))
-    
+    ui = int(input('Press 1 for clip data and a diff int for saving json: '))
+    if ui == 1:
+        ui = int(input('Input int num of top clips to get sentiment for: '))
+        clips = get_clips(moonid, ui)
+        sentiments = generate_sentiment(clips)
+        for i, cr in enumerate(sentiments):
+            print('Clip Title: ' + clips[i]['title'])
+            print('Clip Views: ' + str(clips[i]['view_count']))
+            print('Sentiments: ')
+            print(str(cr[0]))
+            print(str(cr[1]))
+    else:
+        ui = int(input('Input int num of top clips to save data for: '))
+        clips = get_clips(moonid, ui)
+        sentiments = generate_sentiment(clips)
+        generate_json(sentiments, clips)
 if __name__ == '__main__':
     main()
