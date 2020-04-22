@@ -4,6 +4,7 @@ By: Joseph Chan
 Sentiment Analysis for Chatlogs
 
 '''
+import pandas as pd
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 class Chat_reader():
@@ -18,7 +19,7 @@ class Chat_reader():
         self.sentiment = []
         self.avgsent = 0
         self.analyzer = SentimentIntensityAnalyzer()
-
+        self.update_dict()
         for line in chatEntity:
             self.chat_sentences.append(line)
 
@@ -31,6 +32,15 @@ class Chat_reader():
         if len(self.sentiment):
             self.avgsent /= len(self.sentiment)
 
+    def update_dict(self):
+        '''
+        call file s1.csv
+        '''
+        nd = {} 
+        df = pd.read_csv('s1.csv', index_col = 0)
+        for col in df.columns:
+            nd[col] = df.loc['AVERAGE RATING', col]
+        self.analyzer.lexicon.update(nd)
 
     def parse_comment(self, comment):
         '''
