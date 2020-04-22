@@ -39,7 +39,7 @@ class Chat_reader():
         nd = {} 
         df = pd.read_csv('s1.csv', index_col = 0)
         for col in df.columns:
-            nd[col] = df.loc['AVERAGE RATING', col]
+            nd[col.lower()] = df.loc['AVERAGE RATING', col]
         self.analyzer.lexicon.update(nd)
 
     def parse_comment(self, comment):
