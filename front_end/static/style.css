@@ -80,14 +80,29 @@ body{
 
 .wrapper .main_content{
   width: 100%;
-  margin-left: 200px;
+  margin-left: 150px;
+
+
 }
 
 .wrapper .main_content .header{
   padding: 34px;
   background: #061E44;
-  color: #717171;
+  color: whitesmoke;
   border-bottom: 1px solid #e0e4e8;
+}
+
+
+
+
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+  margin: 200px 200px 200px;
+  height: 300px;
 }
 
 .wrapper .main_content .info{
@@ -100,10 +115,78 @@ body{
   margin-bottom: 20px;
 }
 
-}
+
 .header nav{
-  float:right
-  margin-top: 10px;
-  color: #fff;
-  font-family: comic sans;
+  float:left
+  color: #ffffff;
+  font-family: Serif;
 }
+
+
+.wrapper .main_content img {
+  border: 1px solid #ddd; /* Gray border */
+  border-radius: 3px;  /* Rounded border */
+  
+  width: 200px; /* Set a small width */
+  align: left;
+}
+
+
+.clips_container{
+  padding:5px;
+  background-color:  #262669;
+  margin:5px;
+  font-family: fantasy;
+  
+}
+
+.clips_container div{
+  font-family: fantasy;
+}
+
+.clips_container:after{
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clip_container1, .clip_container2{
+  padding: 1px;
+  min-height:100px;
+  background-color:  #400080;
+}
+
+.clip_container1{
+  min-width:200px;
+  float:left;
+}
+.clip_container2{
+  display: flex;
+  flex-direction: column;
+  font-size:30px;
+}
+.clip_container2:after{
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clip_detail, .clip_detail_img{
+  float:top;
+  margin:1px;
+  background-color:#141452;
+  align-self:center;
+  width:100%;
+  text-align:center;
+}
+
+.clip_detail_img{
+  height:150px;
+  width:200px;
+}
+
+

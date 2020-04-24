@@ -1,13 +1,37 @@
 {% extends 'base.html'%}
 {% block container %}
 
+
+src = 'link in file'
+
 <div class="main_content">
   <div class="header">Twitch Data & Analytics</div>  
-  <div class="info">
-    <div>Cheeseburger cheese and wine bocconcini. Dolcelatte the big cheese the big cheese when the cheese comes out everybody's happy smelly cheese babybel chalk and cheese fondue. Paneer croque monsieur when the cheese comes out everybody's happy blue castello paneer who moved my cheese fondue cheeseburger. Cheesy grin pecorino cheesecake everyone loves say cheese.</div>
-    <div>Cheesy feet parmesan red leicester. Cheese on toast danish fontina chalk and cheese the big cheese paneer brie cauliflower cheese airedale. When the cheese comes out everybody's happy lancashire cut the cheese cheeseburger cheesy feet feta the big cheese cheeseburger. Roquefort melted cheese caerphilly cheddar lancashire monterey jack.</div>
-    <div>i eat smol ass</div>
+
+  <div class="content">
+    {% for result in data %}
+    
+    <div class="clips_container">
+
+      <div class="clip_container1">
+        <div class="clip_detail" style="font-size:25px;color:white;"> Username </div>
+        <a href = "{{result['url']}}">
+        <div class="clip_detail_img"> <img src = "{{result['thumbnail_url']}}"></div></a>
+        <div class="clip_detail"style="color:white;"> Timestamp </div>
+      </div>
+      
+      <div class="clip_container2">
+        <div class="clip_detail"style="color:white;"> {{result["title"]}} </div>
+        <div class="clip_detail"style="color:white;"> Username </div>
+        <div class="clip_detail"style="color:white;"> Emote </div>
+        <div class="clip_detail"style="color:white;"> {{result["view_count"]}} </div>
+        <div class="clip_detail"style="color:white;"> {{result["score"]}}</div>
+      </div>
+    
+    </div>
+
+    {% endfor %}
+
 </div>
-</div>
+
 
 {% endblock %}
