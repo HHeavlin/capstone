@@ -127,16 +127,16 @@ body{
   border: 1px solid #ddd; /* Gray border */
   border-radius: 3px;  /* Rounded border */
   
-  width: 200px; /* Set a small width */
+  width: 210px; /* Set a small width */
   align: left;
 }
 
 
 .clips_container{
   padding:5px;
-  background-color:  #262669;
+  background-color:  #37276d;
   margin:5px;
-  font-family: fantasy;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
   
 }
 
@@ -155,17 +155,19 @@ body{
 .clip_container1, .clip_container2{
   padding: 1px;
   min-height:100px;
-  background-color:  #400080;
+  background-color:#141452; 
+  /*border color^^ */
 }
 
 .clip_container1{
   min-width:200px;
   float:left;
+
 }
 .clip_container2{
   display: flex;
   flex-direction: column;
-  font-size:30px;
+  font-size:25px;
 }
 .clip_container2:after{
   content: ".";
@@ -181,12 +183,12 @@ body{
   background-color:#141452;
   align-self:center;
   width:100%;
-  text-align:center;
+  text-align:left;
 }
 
 .clip_detail_img{
-  height:150px;
-  width:200px;
+  height:130px;
+  width:220px;
 }
 
 

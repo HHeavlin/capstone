@@ -8,6 +8,10 @@ import datetime, json
 from j_utils import *
 from sentiment import Chat_reader
 from parsingzip import parsing_zip_file
+
+
+CLIP_DATA_PATH = "front_end/data/clips.json"
+
 def generate_sentiment(clipdata):
     '''
     input list of clips
@@ -38,7 +42,7 @@ def generate_json(sentiments, clipdata):
             'view_count' : clipdata[i]['view_count'] 
         }
         data.append(d)
-    with open('clipdata.json', 'w') as fp:
+    with open(CLIP_DATA_PATH, 'w') as fp:
         json.dump(data, fp)
 
 #==========================================================
