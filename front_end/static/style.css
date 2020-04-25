@@ -80,8 +80,18 @@ body{
 
 .wrapper .main_content{
   width: 100%;
-  margin-left: 150px;
+  margin-left: 220px;
 
+
+}
+
+input[type="text"], [type='submit'] {
+  float:right;
+  padding:6px;
+  margin-top:20px;
+  margin-right: 16px;
+  border: none;
+  font-size:17px;
 
 }
 

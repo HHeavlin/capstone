@@ -46,7 +46,7 @@ def generate_json(sentiments, clipdata):
         }
         data.append(d)
     with open(CLIP_DATA_PATH, 'w') as fp:
-        json.dump(data, fp)
+        json.dump(data, fp, indent=2, sort_keys=True)
 
 #==========================================================
 def main():
