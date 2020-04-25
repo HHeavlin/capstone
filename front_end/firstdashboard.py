@@ -19,6 +19,9 @@ def format_time(time_string):
     time_string = time_string[:-1]
 
     return time_string
+
+def is_clip_in_search(clip, word):
+    return word.lower() in clip['title'].lower()
     
 @app.route('/', methods=['GET'])
 def index():
@@ -29,7 +32,7 @@ def index():
         word = request.args["search"]
         search_data = []
         for clip in data:
-            if word.lower() in clip["title"].lower():
+            if is_clip_in_search(clip, word):
                 search_data.append(clip)
         data = search_data
 
