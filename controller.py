@@ -35,7 +35,10 @@ def generate_json(sentiments, clipdata):
             'url' : clipdata[i]['url'],
             'thumbnail_url' : clipdata[i]['thumbnail_url'],
             'title' : clipdata[i]['title'],
-            'view_count' : clipdata[i]['view_count'] 
+            'view_count' : clipdata[i]['view_count'],
+            'clipped_by' : clipdata[i]['creator_name'],
+            'created_at' : clipdata[i]['created_at'],
+            'broadcaster' : clipdata[i]['broadcaster_name']
         }
         data.append(d)
     with open('clipdata.json', 'w') as fp:
