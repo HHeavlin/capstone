@@ -59,6 +59,9 @@ def show_user_profile(username):
 def subs():
     return render_template('subs.html')
 
+@app.route('/about/')
+def about():
+    return render_template('about.html')
 
 
 
