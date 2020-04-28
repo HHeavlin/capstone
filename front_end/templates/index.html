@@ -1,23 +1,16 @@
 {% extends 'base.html'%}
 {% block container %}
 
-
-
 <div class="main_content">
-  <div class= "search-container">
-    <form action="/" method = "GET">
-    <input type = "submit"></button>
-    <input class="search_bar" type='text' placeholder="Search" name = "search">
-
-
-  </form>
-  </div>
-
-
   <div class="header">Twitch Data & Analytics</div>  
 
-  <div class="content">
-    {% for result in data %}
+  <div class="info" style= "color: white;">
+    <p>Hello, this website was designed for a senior project. It is intended to perform sentiment analysis and data analytics on a streaming website called Twitch.tv. We give a special thanks to ____ _and Rich Thompson. 
+    Creators: Jake Heller, Joseph Chan, Yasmine Dana, Hayley , Gwen 
+    </p>
+      </div>
+
+<div class="content">
     
     <div class="clips_container">
 
@@ -30,7 +23,8 @@
       
       <div class="clip_container2">
         <div class="clip_detail"style="color:white; font-size: 35px;">{{result["title"]}} </div>
-        <div class="clip_detail"style="color:white;">{{result['broadcaster']}} </div>
+        <a href = "/channels/{{result['broadcaster'].lower()}}">
+        <div class="clip_detail"style="color:white;">{{result['broadcaster']}} </div></a>
         <div class="clip_detail"style="color:white;"> Emote </div>
         <div class="clip_detail"style="color:white;"> Views: {{result["view_count"]}} </div>
         <div class="clip_detail"style="color:{{result['sentiment_color']}};"> Rating: {{result["score"]}}</div>
@@ -38,9 +32,7 @@
     
     </div>
 
-    {% endfor %}
-
 </div>
 
-
+</div>
 {% endblock %}

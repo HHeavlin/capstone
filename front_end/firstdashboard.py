@@ -6,9 +6,20 @@ import json
 app = Flask(__name__)
 app.static_folder = 'static'
 
-def get_clips():
+def get_clips(channel=None, number=None):
     with open("data/clips.json", 'r') as json_file:
         data = json.load(json_file)
+
+    if not number==None:
+        return data[:number]
+
+    if not channel==None:
+        word = channel
+        search_data = []
+        for clip in data:
+            if word.lower() == clip['broadcaster'].lower():
+                search_data.append(clip)
+        data = search_data
     return data
 
 
@@ -21,13 +32,33 @@ def format_time(time_string):
     return time_string
 
 def is_clip_in_search(clip, word):
-    return word.lower() in clip['title'].lower()
-    
-@app.route('/', methods=['GET'])
-def index():
+    return (word.lower() in clip['title'].lower() or
+      word.lower() in clip['broadcaster'].lower())
 
-    data = get_clips()
-    print(request.args)
+
+@app.route('/')
+def index():
+    try:
+        data = get_clips(number=1)
+    except FileNotFoundError as e:
+        ## Process Error
+        return "No clips" # Add error page
+
+    for clip in data:
+        if clip["score"] < 0:
+            clip["sentiment_color"]="red"
+        else: 
+            clip["sentiment_color"]= "green"
+
+    return render_template('index.html', result=data[0], format_time=format_time)
+    
+def generic_channels(channel):
+    try:
+        data = get_clips(channel=channel)
+    except FileNotFoundError as e:
+        ## Process Error
+        return "No clips" # Add error page
+
     if "search" in request.args:
         word = request.args["search"]
         search_data = []
@@ -35,6 +66,8 @@ def index():
             if is_clip_in_search(clip, word):
                 search_data.append(clip)
         data = search_data
+
+    # cut off extra data
 
 
     # generate data[i]['sentiment_color']
@@ -44,16 +77,36 @@ def index():
         else: 
             clip["sentiment_color"]= "green"
 
-    return render_template('Test_Page.html', data = data, format_time=format_time) #this has changed
-    #                                        username1="Yasmine__", username2="Brian"
+    return render_template('channels.html', data = data, format_time=format_time) 
 
-@app.route('/channels/')
-def channels():
-    return render_template('channels.html')
+@app.route('/channels/', methods=['GET'])
+def default_channels():
+    return generic_channels(None)
+
+@app.route('/channels/<channel>', methods=['GET'])
+def specific_channels(channel):
+    return generic_channels(channel)
 
 @app.route('/user/<username>')
 def show_user_profile(username):
     return 'User %s' % escape(username)
+
+@app.route('/clips/') 
+def clips():
+    try:
+        data = get_clips()
+    except FileNotFoundError as e:
+        ## Process Error
+        return "No clips" # Add error page
+
+    if "search" in request.args:
+        word = request.args["search"]
+        search_data = []
+        for clip in data:
+            if is_clip_in_search(clip, word):
+                search_data.append(clip)
+        data = search_data
+    return render_template('clips.html', data = data, format_time=format_time)
 
 @app.route('/subs/')
 def subs():

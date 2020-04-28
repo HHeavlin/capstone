@@ -201,4 +201,28 @@ input[type="text"], [type='submit'] {
   width:220px;
 }
 
+.flex-container {
+  display:flex;
+  flex-wrap: wrap;
+  margin-top:20px;
+}
 
+.flex_clip_container{
+  padding: 5px;
+  min-height:100px;
+  background-color:#141452; 
+  width:270px;
+  float:left;
+  border: 1px solid gray;
+  margin:20px;
+  text-align: center;
+
+}
+
+.search-container-clips:after{
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}

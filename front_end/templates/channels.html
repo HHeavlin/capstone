@@ -1,14 +1,47 @@
 {% extends 'base.html'%}
 {% block container %}
 
+
+
 <div class="main_content">
+  <div class= "search-container">
+    <form action="/channels/" method = "GET">
+    <input type = "submit"></button>
+    <input class="search_bar" type='text' placeholder="Search" name = "search">
+  </form>
+  </div>
+
+
   <div class="header">Twitch Data & Analytics</div>  
-  <div class="info">
+
+  <div class="content">
+    {% for result in data %}
+    
+    <div class="clips_container">
+
+      <div class="clip_container1">
+        <div class="clip_detail" style="font-size:18px;color:white;">{{result['broadcaster']}} </div>
+        <a href = "{{result['url']}}">
+        <div class="clip_detail_img"> <img src = "{{result['thumbnail_url']}}"></div></a>
+        <div class="clip_detail"style="color:white;"> {{format_time(result['created_at'])}} </div>
+      </div>
+      
+      <div class="clip_container2">
+        <div class="clip_detail"style="color:white; font-size: 35px;">{{result["title"]}} </div>
+        <a href = "/channels/{{result['broadcaster'].lower()}}">
+        <div class="clip_detail"style="color:white;">{{result['broadcaster']}} </div></a>
+        <div class="clip_detail"style="color:white;"> Emote </div>
+        <div class="clip_detail"style="color:white;"> Views: {{result["view_count"]}} </div>
+        <div class="clip_detail"style="color:{{result['sentiment_color']}};"> Rating: {{result["score"]}}</div>
+      </div>
+    
+    </div>
+
+    {% endfor %}
 
 </div>
 
+</div>
+
+
 {% endblock %}
-
-
-
-
