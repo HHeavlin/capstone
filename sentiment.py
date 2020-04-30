@@ -6,6 +6,7 @@ Sentiment Analysis for Chatlogs
 '''
 import pandas as pd
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from nltk.probability import FreqDist
 
 class Chat_reader():
     '''
@@ -18,8 +19,11 @@ class Chat_reader():
         self.chat_sentences = []
         self.sentiment = []
         self.avgsent = 0
+        self.freqd = FreqDist(word for sent in chatEntity for word in sent.split())
         self.analyzer = SentimentIntensityAnalyzer()
         self.update_dict()
+        #add this in when the emote dict gets fully updated
+        #self.emotescore = self.analyzer.lexicon[self.mostcommon]
         for line in chatEntity:
             self.chat_sentences.append(line)
 
