@@ -1,0 +1,42 @@
+{% extends 'base.html'%}
+{% block container %}
+
+
+<div class="main_content">
+    
+
+
+    <div class= "search-container">
+      <form action="/emotes/" method = "GET">
+      <input type = "submit"></button>
+      <input class="search_bar" type='text' placeholder="Search" name = "search">
+    </form>
+    </div>
+    <div class="header">EMOTES</div>  
+    
+    <div class="flex-container">
+        {% for result in data %}
+    
+          <div class="flex_clip_container" >
+            <div class="clip_detail"style="color:white; font-size: 19px;">{{result["title"]}} </div>
+        
+            <a href = "{{result['url']}}">
+            <div class="clip_detail_img"> <img src = "{{result['thumbnail_url']}}"></div></a>
+            <div class="clip_detail"><img src = "{{result['bemote']}}"></div>
+            <div class="clip_detail"> "bscore" </div>
+            <div class="clip_detail"><img src = "{{result['aemote']}}"></div>
+            <div class="clip_detail"> "ascore" </div>
+            <div class="clip_detail" style="font-size:14px;color:white;">{{result['broadcaster']}} </div>
+            <div class="clip_detail"style="color:white;"> {{format_time(result['created_at'])}} </div>
+          </div>
+    
+        {% endfor %}
+    
+    </div>
+    
+</div>
+    
+    
+    {% endblock %}
+    
+

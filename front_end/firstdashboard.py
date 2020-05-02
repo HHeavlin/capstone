@@ -116,6 +116,41 @@ def subs():
 def about():
     return render_template('about.html')
 
+@app.route('/emotes/') 
+def emotes():
+    try:
+        data = get_clips()
+    except FileNotFoundError as e:
+        ## Process Error
+        return "No clips" # Add error page
+
+
+    if "search" in request.args:
+        word = request.args["search"]
+        search_data = []
+        for clip in data:
+            if is_clip_in_search(clip, word):
+                search_data.append(clip)
+        data = search_data
+
+    with open("emotelinks.json", "r") as f:
+        emotelinks = json.load(f)
+        
+
+    for clip in data:
+
+        bemote = clip["bemote"] # bemote = "moon2CR"
+        bemote_link = emotelinks[bemote]
+        bemote_score = 0
+        clip['bemote'] = bemote_link
+
+
+        aemote = clip["aemote"]
+        aemote_link = emotelinks[aemote]
+        aemote_score = 0
+        clip['aemote'] = aemote_link
+
+    return render_template('emotes.html', data = data, format_time=format_time)
 
 
 if __name__ == '__main__':
