@@ -1,10 +1,15 @@
-from flask import Flask, render_template, request
-from jinja2 import Template
-
+from flask import Flask, render_template, request, make_response, url_for
+from jinja2 import Template, Environment, select_autoescape, FileSystemLoader
 import json
 
 app = Flask(__name__)
+loader = FileSystemLoader( searchpath=["templates/","static/"] )
+unsafe_env = Environment(loader=loader)
 app.static_folder = 'static'
+
+def no_escape_render(template_fname, env, **kwargs):
+    template = env.get_template(template_fname)
+    return make_response(template.render(**kwargs))
 
 def get_clips(channel=None, number=None):
     with open("data/clips.json", 'r') as json_file:
@@ -136,21 +141,28 @@ def emotes():
     with open("emotelinks.json", "r") as f:
         emotelinks = json.load(f)
         
+    missing_emotes= set()
 
     for clip in data:
 
         bemote = clip["bemote"] # bemote = "moon2CR"
-        bemote_link = emotelinks[bemote]
-        bemote_score = 0
-        clip['bemote'] = bemote_link
+
+        try:
+            bemote_link = emotelinks[bemote]
+            clip['bemote'] = '<img src = "{}">'.format(bemote_link)
+        except KeyError as e:
+            clip['bemote'] = bemote
 
 
         aemote = clip["aemote"]
-        aemote_link = emotelinks[aemote]
-        aemote_score = 0
-        clip['aemote'] = aemote_link
+        try:
+            aemote_link = emotelinks[aemote]
+            clip['aemote'] = '<img src = "{}">'.format(aemote_link)
+        except KeyError as e:
+            clip['aemote'] = aemote
 
-    return render_template('emotes.html', data = data, format_time=format_time)
+    return no_escape_render("emotes.html", unsafe_env,  
+        data = data, format_time=format_time, url_for = url_for)
 
 
 if __name__ == '__main__':
