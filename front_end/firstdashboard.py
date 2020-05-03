@@ -145,21 +145,14 @@ def emotes():
 
     for clip in data:
 
-        bemote = clip["bemote"] # bemote = "moon2CR"
+        emote = clip["emote"] # bemote = "moon2CR"
 
         try:
-            bemote_link = emotelinks[bemote]
-            clip['bemote'] = '<img src = "{}">'.format(bemote_link)
+            emote_link = emotelinks[bemote]
+            clip['emote'] = '<img src = "{}">'.format(emote_link)
         except KeyError as e:
-            clip['bemote'] = bemote
+            clip['emote'] = emote
 
-
-        aemote = clip["aemote"]
-        try:
-            aemote_link = emotelinks[aemote]
-            clip['aemote'] = '<img src = "{}">'.format(aemote_link)
-        except KeyError as e:
-            clip['aemote'] = aemote
 
     return no_escape_render("emotes.html", unsafe_env,  
         data = data, format_time=format_time, url_for = url_for)
