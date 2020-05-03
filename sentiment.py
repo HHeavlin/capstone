@@ -19,11 +19,13 @@ class Chat_reader():
         self.chat_sentences = []
         self.sentiment = []
         self.avgsent = 0
-        self.freqd = FreqDist(word for sent in chatEntity for word in sent.split())
         self.analyzer = SentimentIntensityAnalyzer()
         self.update_dict()
-        #add this in when the emote dict gets fully updated
-        #self.emotescore = self.analyzer.lexicon[self.mostcommon]
+        self.freqd = FreqDist(word for sent in chatEntity for word in sent.split())
+        try:
+            self.emotescore = self.analyzer.lexicon[self.freqd.max().lower()]
+        except KeyError:
+            self.emotescore = 'No Data'
         for line in chatEntity:
             self.chat_sentences.append(line)
 

@@ -21,17 +21,16 @@ def generate_sentiment(clipdata):
         d1 = d - td
         d2 = d + td
         df = parsing_zip_file(d.day, d.month, d.year)
-        if len(df['Message']) == 0:
+        chat = df[(df.Date >= d1) & (df.Date <= d2)]['Message']
+        if len(chat) <= 1:
             continue
-        chatbefore = df[(df.Date <= d)&(df.Date >= d1)]['Message']
-        chatafter = df[(df.Date <= d2)&(df.Date >= d)]['Message']
-        sentiments.append((Chat_reader(chatbefore),Chat_reader(chatafter)))
+        sentiments.append(Chat_reader(chat))
     return sentiments
 
 def generate_json(sentiments, clipdata):
     data = []
     for i, s in enumerate(sentiments):
-        score = s[0].avgsent - s[1].avgsent
+        score = s.avgsent
         d = {
             'score' : round(score, 2),
             'url' : clipdata[i]['url'],
@@ -41,10 +40,8 @@ def generate_json(sentiments, clipdata):
             'clipped_by' : clipdata[i]['creator_name'],
             'created_at' : clipdata[i]['created_at'],
             'broadcaster' : clipdata[i]['broadcaster_name'], 
-            'bemote' : s[0].freqd.max(), 
-            #'bscore' : s[0].emotescore, 
-            'aemote' : s[1].freqd.max(), 
-            #'ascore' : s[1].emotescore, 
+            'emote' : s.freqd.max(), 
+            'emote_score' : s.emotescore
         }
         data.append(d)
     with open(str(len(sentiments)) + '_clipdata.json', 'w') as fp:
