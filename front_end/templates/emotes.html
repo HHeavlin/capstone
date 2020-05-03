@@ -23,7 +23,7 @@
             <a href = "{{result['url']}}">
             <div class="clip_detail_img"> <img src = "{{result['thumbnail_url']}}"></div></a>
             <div class="clip_detail_emote">{{result['emote']}}</div>
-            <div class="clip_detail"> "{{result['emote_score']}} </div>
+            <div class="clip_detail" style="font-size:20px;color:{{result['sentiment_color']}};"> {{result['emote_score']}} </div>
             <div class="clip_detail" style="font-size:14px;color:white;">{{result['broadcaster']}} </div>
             <div class="clip_detail"style="color:white;"> {{format_time(result['created_at'])}} </div>
           </div>

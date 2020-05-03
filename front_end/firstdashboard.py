@@ -148,11 +148,22 @@ def emotes():
         emote = clip["emote"] # bemote = "moon2CR"
 
         try:
-            emote_link = emotelinks[bemote]
+            emote_link = emotelinks[emote]
             clip['emote'] = '<img src = "{}">'.format(emote_link)
         except KeyError as e:
             clip['emote'] = emote
+        
+        
+        try:
+            clip["sentiment_color"]= "white"
+            clip['emote_score'] = round(float(clip['emote_score']), 1)
 
+            if clip["emote_score"] < 2:
+                clip["sentiment_color"]="red"
+            else: 
+                clip["sentiment_color"]= "green"
+        except ValueError as e:
+            clip['emote_score'] = "No Score"
 
     return no_escape_render("emotes.html", unsafe_env,  
         data = data, format_time=format_time, url_for = url_for)
