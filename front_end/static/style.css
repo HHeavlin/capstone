@@ -143,7 +143,8 @@ input[type="text"], [type='submit'] {
 
 .wrapper .main_content .clip_detail_emote img {
   
-  width: 50px; /* Set a small width */
+/* Set a small width */
+  margin-left: 5px;
   align: left;
 }
 

@@ -48,14 +48,31 @@ def index():
     except FileNotFoundError as e:
         ## Process Error
         return "No clips" # Add error page
+    # cut off extra data
 
+    with open("emotelinks.json", "r") as f:
+        emotelinks = json.load(f)
+        
     for clip in data:
-        if clip["score"] < 0:
+
+        emote = clip["emote"] # bemote = "moon2CR"
+
+        try:
+            emote_link = emotelinks[emote]
+            clip['emote'] = '<img style="width:20px;" src = "{}">'.format(emote_link)
+        except KeyError as e:
+            clip['emote'] = emote
+
+
+    # generate data[i]['sentiment_color']
+    for clip in data:
+        if clip["score"] <= .2:
             clip["sentiment_color"]="red"
         else: 
             clip["sentiment_color"]= "green"
 
-    return render_template('index.html', result=data[0], format_time=format_time)
+    return no_escape_render("index.html", unsafe_env,  
+        result = data[0], format_time=format_time, url_for = url_for) 
     
 def generic_channels(channel):
     try:
@@ -73,16 +90,31 @@ def generic_channels(channel):
         data = search_data
 
     # cut off extra data
+    with open("emotelinks.json", "r") as f:
+        emotelinks = json.load(f)
+        
+
+
+    for clip in data:
+
+        emote = clip["emote"] # bemote = "moon2CR"
+
+        try:
+            emote_link = emotelinks[emote]
+            clip['emote'] = '<img style="width:20px;" src = "{}">'.format(emote_link)
+        except KeyError as e:
+            clip['emote'] = emote
 
 
     # generate data[i]['sentiment_color']
     for clip in data:
-        if clip["score"] < 0:
+        if clip["score"] <= .2:
             clip["sentiment_color"]="red"
         else: 
             clip["sentiment_color"]= "green"
 
-    return render_template('channels.html', data = data, format_time=format_time) 
+    return no_escape_render("channels.html", unsafe_env,  
+        data = data, format_time=format_time, url_for = url_for) 
 
 @app.route('/channels/', methods=['GET'])
 def default_channels():
@@ -149,9 +181,9 @@ def emotes():
 
         try:
             emote_link = emotelinks[emote]
-            clip['emote'] = '<img src = "{}">'.format(emote_link)
+            clip['emote'] = '<img style="width:50px;" src = "{}">'.format(emote_link)
         except KeyError as e:
-            clip['emote'] = emote
+            clip['emote'] = 'Most common phrase: '+ emote
         
         
         try:

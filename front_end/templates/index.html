@@ -25,11 +25,9 @@
         <div class="clip_detail"style="color:white; font-size: 35px;">{{result["title"]}} </div>
         <a href = "/channels/{{result['broadcaster'].lower()}}">
         <div class="clip_detail"style="color:white;">{{result['broadcaster']}} </div></a>
-        <div class="clip_detail"style="color:white;"> Emote </div>
+        <div class="clip_detail_emote">Emote / Common phrase: {{result['emote']}}</div>
         <div class="clip_detail"style="color:white;"> Views: {{result["view_count"]}} </div>
         <div class="clip_detail"style="color:{{result['sentiment_color']}};"> Rating: {{result["score"]}}</div>
-      </div>
-    
     </div>
 
 </div>
